@@ -34,7 +34,7 @@
                     <p-sortIcon field="category"></p-sortIcon>
                 </th>
                 <th style="min-width:10rem">Tuỳ Chỉnh</th>
-                <th></th>
+                
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-product>
@@ -60,7 +60,7 @@
     </p-table>
 </div>
 
-<p-dialog [(visible)]="showForm" [style]="{width: '30vw'}" header="Product Details" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="showForm" [style]="{width: '70vw'}" header="Product Details" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
         <!-- <img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.image" class="product-image" *ngIf="product.image"> -->
         <div class="field">
@@ -68,9 +68,13 @@
             <input type="text" pInputText id="name" [(ngModel)]="productForm.name" required autofocus />
             <!-- <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small> -->
         </div>
-        <div class="field">
+        <!-- <div class="field">
             <label for="description">Giới Thiệu</label>
             <textarea id="description" pInputTextarea [(ngModel)]="productForm.description" required rows="3" cols="20"></textarea>
+        </div> -->
+        <div class="field">
+            <label for="description">Giới Thiệu</label>
+            <div [ngxSummernote]="config" [(ngModel)]="productForm.description"></div>
         </div>
 
 
@@ -83,9 +87,13 @@
                 </div>
             </div>
         </div>
-        <div class="field">
+        <!-- <div class="field">
             <label for="mota">Mô Tả</label>
             <textarea id="mota" pInputTextarea [(ngModel)]="productForm.mota" required rows="3" cols="20"></textarea>
+        </div> -->
+        <div class="field">
+            <label for="mota">Mô tả</label>
+            <div [ngxSummernote]="config" [(ngModel)]="productForm.mota"></div>
         </div>
 
 
@@ -140,7 +148,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Xác nhận" [(visible)]="showDelete" [style]="{width :'30vw'}" [modal]="true" [transitionOptions]="'.3s'">
+<p-dialog header="Xác nhận" [(visible)]="showDelete" [style]="{width :'50vw'}" [modal]="true" [transitionOptions]="'.3s'">
     <div>
         <i class="pi pi pi-exclamation-triangle"></i>
         <span class="ml-2">Bạn có chắc xóa <span>{{productForm.name}}</span> ?</span>

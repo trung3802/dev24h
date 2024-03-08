@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <p-card class="card">
     <p-toolbar styleClass="mb-4 gap-2">
         <ng-template pTemplate="left">
@@ -27,7 +28,7 @@
                 <th pSortableColumn="price"  style="min-width:15rem">Mô tả <p-sortIcon field="price"></p-sortIcon></th>
                 <th pSortableColumn="category" style="min-width:15rem">Nội dung <p-sortIcon field="category"></p-sortIcon></th>
                 <th style="min-width:10rem">Tuỳ Chỉnh</th>
-                <th></th>
+                
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-blog>
@@ -38,7 +39,13 @@
                 <td><img src="{{'data:image/jpg;base64,' +blog.image.data}}" [alt]="blog.title" width="100" class="shadow-4" /></td>
                 <td>{{blog.title}}</td>
                 <td>{{blog.description}}</td>
-                <td>{{blog.content}}</td>
+                <!-- <td>{{blog.content}}</td> -->
+                <!-- <td [innerHTML]="blog.content"></td> -->
+                <td>{{truncateContent(blog.content, 50) }}</td>
+
+
+                
+                
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-primary mr-2" (click)="showUpdate(blog)" ></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"  (click)="showDelete(blog.id,blog.title)"></button>
@@ -56,11 +63,11 @@
 
 
 
-<p-dialog [(visible)]="showForm" [style]="{width: '30vw'}" header="Product Details" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="showForm" [style]="{width: '70vw'}" header="Bài Viết" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
         <!-- <img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.image" class="product-image" *ngIf="product.image"> -->
         <div class="field">
-            <label for="name">Title</label>
+            <label for="name">Tiêu Đề</label>
             <input type="text" pInputText id="title" [(ngModel)]="blogForm.title" required autofocus />
             <!-- <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small> -->
         </div>
@@ -72,14 +79,27 @@
         </div>
 
         <div class="field">
-            <label for="description">Description</label>
+            <label for="description">Mô tả</label>
             <textarea id="description" pInputTextarea [(ngModel)]="blogForm.description" required rows="2" cols="20"></textarea>
         </div>
-        <div class="field">
+        <!-- <div class="field">
+            <label for="description">Description</label>
+            <textarea id="description" pInputTextarea [(ngModel)]="blogForm.description" required rows="2" cols="20"></textarea>
+            <div [ngxSummernote]="config"></div>
+        </div> -->
+        <!-- <div class="field">
+            <label for="description">Mô tả</label>
+            <div [ngxSummernote]="config" [(ngModel)]="blogForm.description"></div>
+        </div> -->
+        
+        <!-- <div class="field">
             <label for="content">Content</label>
             <textarea id="content" pInputTextarea [(ngModel)]="blogForm.content" required rows="4" cols="20"></textarea>
+        </div> -->
+        <div class="field">
+            <label for="content">Nội Dung</label>
+            <div [ngxSummernote]="config" [(ngModel)]="blogForm.content"></div>
         </div>
-
         <div class="field">
             <button pButton type="button" class="p-button-success w-auto" (click)="onChooseImage()" > Chọn ảnh</button>
             <p-dialog header="Chọn ảnh" [(visible)]="showImage" position="top" [modal]="true" [style]="{width: '40vw'}" [transitionOptions]="'.3s'">

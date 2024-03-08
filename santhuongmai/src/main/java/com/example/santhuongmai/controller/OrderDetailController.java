@@ -31,7 +31,7 @@ public class OrderDetailController {
 	
 	
 	@GetMapping("/chitiet/{id}")
-    @Operation(summary="Lấy ra danh sách đơn hàng bằng id của ddơn hàng")
+    @Operation(summary="Lấy ra danh sách đơn hàng bằng id của đơn hàng")
     public ResponseEntity<List<OrderDetail>> getOrderDetailsByOrderId(@PathVariable long id){
         List<OrderDetail> list = oderdetailService.getOrderDetailsByOrderId(id);
         return ResponseEntity.ok(list);

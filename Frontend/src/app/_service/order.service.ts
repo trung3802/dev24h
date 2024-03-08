@@ -22,7 +22,9 @@ export class OrderService {
   getListOrder():Observable<any>{
     return this.http.get(ORDER_API,httpOptions);
   }
-
+  getListstatus():Observable<any>{
+    return this.http.get(ORDER_API + 'status',httpOptions);
+  }
 
   getListOrderByUser(username: string):Observable<any>{
     let params = new HttpParams();
@@ -31,8 +33,8 @@ export class OrderService {
 
   }
 
-  placeOrder(firstname: string,lastname:string,country:string,address: string,town: string,state:string,postCode: string,phone:string,email:string,note:string,orderDetails: OrderDetail[],username: string):Observable<any>{
-    return this.http.post(ORDER_API +'create',{firstname,lastname,country,address,town,state,postCode,phone,email,note,orderDetails,username},httpOptions);
+  placeOrder(firstname: string,lastname:string,country:string,address: string,town: string,state:string,postCode: string,phone:string,email:string,note:string,status: number,bank:number,orderDetails: OrderDetail[],username: string):Observable<any>{
+    return this.http.post(ORDER_API +'create',{firstname,lastname,country,address,town,state,postCode,phone,email,note,status,bank,orderDetails,username},httpOptions);
   }
 // thống kê
   getTotalRevenue(): Observable<number> {
@@ -54,6 +56,9 @@ export class OrderService {
   }
   removeOrder(orderCode: string | null) {
     return this.http.delete(ORDER_API + "removeOrder/" + orderCode, httpOptions);
+  }
+  updateOrder(id: number,status:string):Observable<any>{
+    return this.http.put(ORDER_API + 'update/'+id,{status},httpOptions);
   }
 
 

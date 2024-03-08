@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,8 +30,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.santhuongmai.config.Config;
 import com.example.santhuongmai.entity.Order;
 import com.example.santhuongmai.entity.OrderDetail;
+import com.example.santhuongmai.entity.Orderstatus;
+import com.example.santhuongmai.entity.Product;
 import com.example.santhuongmai.model.request.CreateOrderDetailRequest;
 import com.example.santhuongmai.model.request.CreateOrderRequest;
+import com.example.santhuongmai.model.request.CreateProductRequest;
 import com.example.santhuongmai.model.response.MessageResponse;
 import com.example.santhuongmai.service.OderdetailService;
 import com.example.santhuongmai.service.OrderService;
@@ -54,7 +58,20 @@ public class OrderController {
 
         return ResponseEntity.ok(list);
     }
+    @GetMapping("/status")
+    @Operation(summary="Lấy ra danh sách trạng thái")
+    public ResponseEntity<List<Orderstatus>> getListstatus(){
+        List<Orderstatus> list = orderService.getListstatus();
 
+        return ResponseEntity.ok(list);
+    }
+    @PutMapping("/update/{id}")
+    @Operation(summary="Tìm sản phẩm bằng id và cập nhật trạng thái sản phẩm đó")
+    public ResponseEntity<Order> updateOrder(@PathVariable long id,@RequestBody CreateOrderRequest request){
+    	Order order = orderService.updateOrder(id, request);
+
+        return ResponseEntity.ok(order);
+    }
     @GetMapping("/user")
     @Operation(summary="Lấy ra danh sách đặt hàng của người dùng bằng username")
     public ResponseEntity<List<Order>> getListByUser(@RequestParam("username") String username){

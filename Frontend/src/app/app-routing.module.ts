@@ -27,6 +27,12 @@ import { OrderchitietComponent } from './components/client/orderchitiet/orderchi
 import { AccountComponent } from './components/admin/account/account.component';
 import { ContactComponent } from './components/client/contact/contact.component';
 import { CheckPayComponent } from './components/client/check-pay/checkpay.component';
+import { CheckvnpayComponent } from './components/client/checkvnpay/checkvnpay.component';
+import { ErrorMessageComponent } from './components/client/error-message/error-message.component';
+import { SanphamComponent } from './components/client/sanpham/sanpham.component';
+import { UserComponent } from './components/admin/user/user.component';
+import { StatusorderComponent } from './components/admin/statusorder/statusorder.component';
+import { UserroleComponent } from './components/admin/userrole/userrole.component';
 const routes: Routes = [
   {
     path: 'admin',component:DashboardComponent,
@@ -41,6 +47,9 @@ const routes: Routes = [
       {path:'charts',component:ChartsComponent},
       {path:'chitiet/:id',component:ChitietComponent},
       {path:'thongtin',component:AccountComponent},
+      {path:'qluser',component:UserComponent},
+      {path:'role-user',component:UserroleComponent},
+      {path:'status-order',component:StatusorderComponent},
     ]
   },
   {
@@ -59,7 +68,11 @@ const routes: Routes = [
       {path:'orderchitiet/:id',component:OrderchitietComponent,canActivate: [AuthGuardService]},
       {path:'search/:keyword',component:SearchComponent},
       {path:'contact',component:ContactComponent},
-      { path: 'check-pay', component: CheckPayComponent }
+      { path: 'check-pay', component: CheckPayComponent },
+      { path: 'check-vnpay', component: CheckvnpayComponent },
+      { path: 'enrro-pay', component: ErrorMessageComponent },      
+      { path: 'product', component: SanphamComponent }
+      
     ]
   },
   {path:'login',component:LoginPageComponent}

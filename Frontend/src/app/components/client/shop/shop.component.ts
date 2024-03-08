@@ -8,6 +8,7 @@ import { ProductService } from 'src/app/_service/product.service';
 import { WishlistService } from 'src/app/_service/wishlist.service';
 
 
+
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
@@ -34,6 +35,7 @@ export class ShopComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public cartService:CartService,
+    private messageService:MessageService,
     public wishlistService:WishlistService){
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 
@@ -89,15 +91,59 @@ export class ShopComponent implements OnInit {
     })
   }
 
-  addToCart(item: any){
-    this.cartService.getItems();
-    this.cartService.addToCart(item,1);
-  }
+  // addToCart(item: any){
+  //   this.cartService.getItems();
+  //   this.cartService.addToCart(item,1);
+  // }
   
+  // addToWishList(item: any){
+  //   if(!this.wishlistService.productInWishList(item)){
+  //     this.wishlistService.addToWishList(item);
+  //   }
+  // }
+  // addToCart(item: any) {
+  //   // Kiểm tra số lượng sản phẩm
+  //   if (item.quantity <= 0) {
+  //     // Hiển thị thông báo sản phẩm đã hết hàng
+  //     this.showError("Sản phẩm đã hết hàng!");
+  //   } else {
+  //     // Nếu số lượng sản phẩm còn lớn hơn 0, thêm vào giỏ hàng
+  //     this.cartService.getItems();
+  //     this.showSuccess("Thêm giỏ hàng thành công!");
+  //     this.cartService.addToCart(item, 1);
+  //   }
+  // }
+  addToCart(product: any) {
+  
+
+
+    // Kiểm tra số lượng sản phẩm có sẵn
+    if (product.quantity <= 0) {
+      this.showError("Sản phẩm đã hết hàng!");
+    } else if (this.cartService.getProductQuantityInCart(product.id) > product.quantity) {
+      // Kiểm tra nếu số lượng sản phẩm trong giỏ hàng cộng với số lượng muốn thêm vào lớn hơn số lượng có sẵn
+      this.showError("Số lượng sản phẩm đã hết!");
+    } else {
+      // Nếu không có vấn đề gì, thêm sản phẩm vào giỏ hàng
+      this.cartService.addToCart(product, 1);
+      this.showSuccess("Thêm giỏ hàng thành công!");
+    }
+  }
   addToWishList(item: any){
     if(!this.wishlistService.productInWishList(item)){
+      this.showSuccess("Thêm yêu thích thành công!")
       this.wishlistService.addToWishList(item);
     }
+  }
+  showSuccess(text: string) {
+    this.messageService.add({severity:'success', summary: 'Success', detail: text});
+  }
+  showError(text: string) {
+    this.messageService.add({severity:'error', summary: 'Error', detail: text});
+  }
+
+  showWarn(text: string) {
+    this.messageService.add({severity:'warn', summary: 'Warn', detail: text});
   }
 
 }

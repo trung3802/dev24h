@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import com.example.santhuongmai.entity.Orderstatus;
 import com.example.santhuongmai.entity.Order;
 import com.example.santhuongmai.model.request.CreateOrderRequest;
 
@@ -18,4 +19,7 @@ public interface OrderService {
     ResponseEntity<?> checkOrder(String code);
 
     ResponseEntity<?> removeOrder(String code);
+    // update 
+    Order updateOrder(long id, CreateOrderRequest request);
+    List<Orderstatus> getListstatus();
 }

@@ -18,3 +18,34 @@
     transition: opacity 0.2s;
   }
 
+  
+ 
+
+
+
+/* CSS cho các mục trong carousel */
+/* Hide navigation buttons */
+:host ::ng-deep .p-carousel-prev,
+:host ::ng-deep .p-carousel-next {
+    display: none;
+}
+
+/* Style product item */
+.product-item {
+    text-align: center;
+    padding: 10px;
+    
+    border-radius: 5px;
+}
+
+.product-item img {
+    width: 75%;
+    height: auto;
+}
+
+.product-detail {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+

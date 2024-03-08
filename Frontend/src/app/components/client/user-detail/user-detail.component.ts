@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from 'src/app/_service/storage.service';
 import { UserService } from 'src/app/_service/user.service';
-
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -29,7 +29,7 @@ export class UserDetailComponent implements OnInit {
     newPassword: null
   }
 
-  constructor(private storageService: StorageService,private userService: UserService){}
+  constructor(private storageService: StorageService,private userService: UserService ,private messageService:MessageService,){}
 
   ngOnInit(): void {
     this.username = this.storageService.getUser().username;
@@ -59,7 +59,8 @@ export class UserDetailComponent implements OnInit {
     const{firstname,lastname,email,country,state,address,phone} = this.updateForm;
     this.userService.updateProfile(this.username,firstname,lastname,email,country,state,address,phone).subscribe({
       next: res =>{
-        alert("Cập nhật thông tin thành công")
+        // alert("Cập nhật thông tin thành công")
+        this.showSuccess("Cập nhật thông tin thành công");
         this.getUser();
         
       },error: err=>{
@@ -83,5 +84,16 @@ export class UserDetailComponent implements OnInit {
   showChangePassword(){
     this.changePassword =true;
   }
+  showSuccess(text: string) {
+    this.messageService.add({severity:'success', summary: 'Success', detail: text});
+  }
+  showError(text: string) {
+    this.messageService.add({severity:'error', summary: 'Error', detail: text});
+  }
+
+  showWarn(text: string) {
+    this.messageService.add({severity:'warn', summary: 'Warn', detail: text});
+  }
+  
 
 }

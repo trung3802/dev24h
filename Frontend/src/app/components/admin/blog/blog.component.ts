@@ -40,6 +40,34 @@ export class BlogComponent implements OnInit {
     imageId : null,
     tags: [],
   }
+  // NgxSummernote
+  config = {
+    placeholder: '',
+    tabsize: 2,
+    height: 200, // Change the type from string to number
+    uploadImagePath: '/api/upload',
+    toolbar: [
+      ['misc', ['codeview', 'undo', 'redo']],
+      ['style', ['bold', 'italic', 'underline', 'clear']],
+      ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+      ['fontsize', ['fontname', 'fontsize', 'color']],
+      ['para', ['style', 'ul', 'ol', 'paragraph', 'height']],
+      ['insert', ['table', 'picture', 'link', 'video', 'hr']]
+    ],
+    fontNames: ['Helvetica', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Roboto', 'Times']
+  };
+  // đặt chuỗi thành ...
+  truncateContent(content: string, maxLength: number): string {
+    if (content.length <= maxLength) {
+        return content;
+    } else {
+        return content.substring(0, maxLength) + '(....)';
+    }
+  }
+  
+
+
+
 
   constructor(private blogService: BlogService,private storageService: StorageService,private tagService: TagService,private imageService: ImageService,private messageService: MessageService){
 

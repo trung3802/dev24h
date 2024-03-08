@@ -45,49 +45,87 @@ export class HomeComponent implements OnInit {
   }
 
 ]
+responsiveOptions: any[] = [
+  {
+      breakpoint: '1024px',
+      numVisible: 3,
+      numScroll: 3
+  },
+  {
+      breakpoint: '768px',
+      numVisible: 2,
+      numScroll: 2
+  },
+  {
+      breakpoint: '560px',
+      numVisible: 1,
+      numScroll: 1
+  }
+];
 
 category_items = [
   {
     id: 1,
-    src: 'assets/image/cat-1.jpg',
+    src: 'assets/image/slide.jpg',
     alt: '',
-    title: 'NEW'
+    // title: 'NEW'
   },
   {
     id: 2,
-    src: 'assets/image/cat-2.jpg',
+    src: 'assets/image/slide1.jpg',
     alt: '',
-    title: 'HOT'
+    // title: 'HOT'
   },
   {
     id: 3,
-    src: 'assets/image/cat-3.jpg',
+    src: 'assets/image/slide2.jpg',
     alt: '',
-    title: 'NEW'
+    // title: 'NEW'
   },
   {
     id: 4,
-    src: 'assets/image/cat-4.jpg',
+    src: 'assets/image/slide3.jpg',
     alt: '',
-    title: 'HOT'
+    // title: 'HOT'
   },
   {
     id: 5,
-    src: 'assets/image/cat-3.jpg',
+    src: 'assets/image/slide4.jpg',
     alt: '',
-    title: 'NEW'
+    // title: 'NEW'
   }
 ] ;
-
+slides: any[] = new Array(6).fill({id: -1, src: '', title: '', subtitle: ''});
 constructor(private productSerive:ProductService,private cartService: CartService, private wishlistService: WishlistService,private messageService: MessageService){}
 
 ngOnInit(): void {
   this.getListProduct();
+  this.slides[0] = {
+    src: 'assets/image/slide.jpg',
+  };
+  this.slides[1] = {
+    src: 'assets/image/slide1.jpg',
+  }
+  this.slides[2] = {
+    src: 'assets/image/slide2.jpg',
+  }
+  this.slides[3] = {
+    src: 'assets/image/slide3.jpg',
+  };
+  this.slides[4] = {
+    src: 'assets/image/slide4.jpg',
+  }
+  this.slides[5] = {
+    src: 'assets/image/slide1.jpg',
+  }
+
+  
+
 }
 
 
 getListProduct(){
-  this.productSerive.getListProductNewest(8).subscribe({
+  this.productSerive.getListProductNewest(12).subscribe({
     next: res =>{
       this.listProductNewest = res;
     },error: err =>{
@@ -103,11 +141,45 @@ getListProduct(){
   })
 }
 
-addToCart(item: any){
-  this.cartService.getItems();
-  this.showSuccess("Thêm giỏ hàng thành công!")
-  this.cartService.addToCart(item,1);
+// addToCart(item: any){
+//   this.cartService.getItems();
+//   this.showSuccess("Thêm giỏ hàng thành công!")
+//   this.cartService.addToCart(item,1);
+// }
+// addToCart(item: any) {
+//   // Kiểm tra số lượng sản phẩm
+//   if (item.quantity <= 0) {
+//     // Hiển thị thông báo sản phẩm đã hết hàng
+//     this.showError("Sản phẩm đã hết hàng!");
+//   } else {
+//     // Nếu số lượng sản phẩm còn lớn hơn 0, thêm vào giỏ hàng
+//     this.cartService.getItems();
+//     this.showSuccess("Thêm giỏ hàng thành công!");
+//     this.cartService.addToCart(item, 1);
+//   }
+// }
+addToCart(product: any) {
+  
+
+
+  // Kiểm tra số lượng sản phẩm có sẵn
+  if (product.quantity <= 0) {
+    this.showError("Sản phẩm đã hết hàng!");
+  } else if (this.cartService.getProductQuantityInCart(product.id) > product.quantity) {
+    // Kiểm tra nếu số lượng sản phẩm trong giỏ hàng cộng với số lượng muốn thêm vào lớn hơn số lượng có sẵn
+    this.showError("Số lượng sản phẩm đã hết!");
+  } else {
+    // Nếu không có vấn đề gì, thêm sản phẩm vào giỏ hàng
+    this.cartService.addToCart(product, 1);
+    this.showSuccess("Thêm giỏ hàng thành công!");
+  }
 }
+
+
+
+
+
+
 
 addToWishList(item: any){
   if(!this.wishlistService.productInWishList(item)){
@@ -126,18 +198,16 @@ showError(text: string) {
 showWarn(text: string) {
   this.messageService.add({severity:'warn', summary: 'Cảnh Báo', detail: text});
 }
+scrollToTop() {
+  const scrollDuration = 1000; // Thời gian để cuộn lên (1 giây)
+  const scrollStep = -window.scrollY / (scrollDuration / 15);
 
-
-  scrollToTop() {
-    const scrollDuration = 1000; // Thời gian để cuộn lên (1 giây)
-    const scrollStep = -window.scrollY / (scrollDuration / 15);
-
-    const scrollInterval = setInterval(function() {
-        if (window.scrollY != 0) {
-            window.scrollBy(0, scrollStep);
-        } else {
-            clearInterval(scrollInterval);
-        }
-    }, 15);
-  }
+  const scrollInterval = setInterval(function() {
+    if (window.scrollY != 0) {
+      window.scrollBy(0, scrollStep);
+    } else {
+      clearInterval(scrollInterval);
+    }
+  }, 15);
+}
 }

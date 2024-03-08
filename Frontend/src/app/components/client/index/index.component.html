@@ -12,6 +12,17 @@
                 <label for="password">Mật khẩu: </label>
                 <input type="password" pPassword class="w-full" [(ngModel)]="loginForm.password" name="password">
             </div>
+
+            <!-- //
+
+            // -->
+
+           
+
+            <!-- //
+
+            // -->
+
             <div class="p-field mt-3">
                 <button type="submit" pButton (click)="login()">Đăng nhập</button>
             </div>
@@ -69,8 +80,8 @@
                         <li><a href="javascript:void(0)" routerLink="/">Trang Chủ</a></li>
                         <li><a href="javascript:void(0)">Pages</a>
                             <ul class="header__menu__dropdown">
-                                <li><a href="javascript:void(0)">Shop Details</a></li>
-                                <li><a href="javascript:void(0)">Shoping Cart</a></li>
+                                <li><a href="javascript:void(0)" routerLink="/product">Sản Phẩm</a></li>
+                                <li><a href="javascript:void(0)" routerLink="/cart">Giỏ Hàng</a></li>
                                 <li><a href="javascript:void(0)">Check Out</a></li>
                                 <li><a href="javascript:void(0)">Blog Details</a></li>
                             </ul>
@@ -143,13 +154,18 @@
                             </a>
                             <p-overlayPanel #profile>
                                 <div>
+                                     <!-- Hiển thị mục "ADMIN" nếu là admin -->
+                                    <a class="dropdown-item" *ngIf="isAdmin" href="javascript:void(0)" routerLink="/admin/charts">
+                                        <fa-icon [icon]="userIcon"></fa-icon>
+                                        Trang Quản Trị
+                                    </a>
                                     <a class="dropdown-item" href="javascript:void(0)" routerLink="/user">
                                         <fa-icon [icon]="userIcon"></fa-icon>
-                                        Thông tin người dùng
+                                        Người Dùng
                                     </a>
                                     <a class="dropdown-item" href="javascript:void(0)" routerLink="my-order">
                                         <fa-icon [icon]="bag"></fa-icon>
-                                        Thông tin đơn hàng
+                                        Đơn Hàng
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" (click)="logout();profile.toggle($event)">
@@ -170,7 +186,7 @@
         </div>
     </div>
 </header>
-<section class="hero">
+<section class="hero" style="margin-top: 130px;">
     <div class="container">
         
         
@@ -201,7 +217,7 @@
                 <div class="hero__categories">
                     <div class="hero__categories__all" (click)="showDepartmentClick()">
                         <fa-icon [icon]="bars"></fa-icon>
-                        <span>All Danh Mục</span>
+                        <span> Danh Mục</span>
                     </div>
                     <ul *ngIf="showDepartment" style="max-height: 431px; overflow-y: auto;">
                         <li *ngFor="let category of listCategoryEnabled" >

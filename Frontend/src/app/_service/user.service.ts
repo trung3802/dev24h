@@ -28,8 +28,26 @@ export class UserService {
     return this.http.put(USER_API +'update',{username,firstname,lastname,email,country,state,address,phone},httpOptions);
   }
 
+
+  
+  updateUser(id:number,username: string,firstname: string,lastname:string,email:string,country:string,state:string,address: string,phone: string,roles: number[]):Observable<any>{
+    return this.http.put(USER_API +'update/'+ id,{id,username,firstname,lastname,email,country,state,address,phone,roles},httpOptions);
+  }
+
+
   changePassword(username: string, oldPassword: string,newPassword: string):Observable<any>{
     return this.http.put(USER_API + 'password',{username,oldPassword,newPassword},httpOptions);
+  }
+
+  getListuser():Observable<any>{
+    return this.http.get(USER_API+ 'alluser',httpOptions);
+  }
+  getListuserid(id: number):Observable<any>{
+    return this.http.get(USER_API + id,httpOptions);
+  }
+  // xóa user theo id người dùng
+  deleteUser(id:number):Observable<any>{
+    return this.http.delete(USER_API + 'delete/' + id,httpOptions);
   }
 
 }

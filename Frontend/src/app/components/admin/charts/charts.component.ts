@@ -17,9 +17,14 @@ export class ChartsComponent {
   clip=faClipboard;
   dolo=faDollarSign;
   cmt=faComment;
+
+  data: any;
+  options: any;
   constructor(private productService: ProductService,private orderService: OrderService,private blogService: BlogService) {}
 
   ngOnInit(): void {
+
+    
     //gọi ra api tổng sản phẩm
     this.productService.getTotalProducts().subscribe(total => {
       this.totalProducts = total;
@@ -36,7 +41,87 @@ export class ChartsComponent {
       this.blogService.getBlogtt().subscribe(blogss => {
         this.totalblog = blogss;
       });
+
+      const documentStyle = getComputedStyle(document.documentElement);
+      const textColor = documentStyle.getPropertyValue('--text-color');
+      const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+      const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+      
+      this.data = {
+        labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+        datasets: [
+            {
+                label: 'Sản Phẩm',
+                fill: false,
+                borderColor: documentStyle.getPropertyValue('--blue-500'),
+                yAxisID: 'y',
+                tension: 0.4,
+                data: [65, 59, 80, 81, 56, 55, 10, 1, 56, 55, 10,50]
+            },
+            {
+                label: 'Doanh Thu',
+                fill: false,
+                borderColor: documentStyle.getPropertyValue('--green-500'),
+                yAxisID: 'y1',
+                tension: 0.4,
+                data: [28, 48, 40, 19, 86, 27, 90, 19, 48, 40, 19,90]
+            }
+        ]
+    };
+      
+      this.options = {
+          stacked: false,
+          maintainAspectRatio: false,
+          aspectRatio: 0.6,
+          plugins: {
+              legend: {
+                  labels: {
+                      color: textColor
+                  }
+              }
+          },
+          scales: {
+              x: {
+                  ticks: {
+                      color: textColorSecondary
+                  },
+                  grid: {
+                      color: surfaceBorder
+                  }
+              },
+              y: {
+                  type: 'linear',
+                  display: true,
+                  position: 'left',
+                  ticks: {
+                      color: textColorSecondary
+                  },
+                  grid: {
+                      color: surfaceBorder
+                  }
+              },
+              y1: {
+                  type: 'linear',
+                  display: true,
+                  position: 'right',
+                  ticks: {
+                      color: textColorSecondary
+                  },
+                  grid: {
+                      drawOnChartArea: false,
+                      color: surfaceBorder
+                  }
+              }
+          }
+      };
+      // Gọi API để lấy dữ liệu và cập nhật vào biểu đồ
+
+      
+    
+      
   }
+
+  
 
 
 

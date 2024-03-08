@@ -50,6 +50,17 @@
   
   
   
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff; /* Màu nền cho thanh menu */
+    z-index: 1000; /* Đảm bảo thanh menu hiển thị trên tất cả các phần khác */
+  }
+  
+  /* Thêm các quy tắc CSS khác tùy thuộc vào yêu cầu thiết kế của bạn */
+ 
   
   
 

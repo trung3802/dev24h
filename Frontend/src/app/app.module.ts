@@ -53,6 +53,17 @@ import { EmailVerificationComponent } from './components/client/email-verificati
 import { ChitietComponent } from './components/admin/chitiet/chitiet.component';
 import { OrderchitietComponent } from './components/client/orderchitiet/orderchitiet.component';
 import { ContactComponent } from './components/client/contact/contact.component';
+import { NgxSummernoteModule } from 'ngx-summernote';
+import { CheckvnpayComponent } from './components/client/checkvnpay/checkvnpay.component';
+import { ErrorMessageComponent } from './components/client/error-message/error-message.component';
+import { ChartModule } from 'primeng/chart';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { SanphamComponent } from './components/client/sanpham/sanpham.component';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { UserComponent } from './components/admin/user/user.component';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { UserroleComponent } from './components/admin/userrole/userrole.component';
+import { StatusorderComponent } from './components/admin/statusorder/statusorder.component';
 
 
 @NgModule({
@@ -82,6 +93,12 @@ import { ContactComponent } from './components/client/contact/contact.component'
     ChitietComponent,
     OrderchitietComponent,
     ContactComponent,
+    CheckvnpayComponent,
+    ErrorMessageComponent,
+    SanphamComponent,
+    UserComponent,
+    UserroleComponent,
+    StatusorderComponent,
 
   ],
   imports: [
@@ -111,7 +128,12 @@ import { ContactComponent } from './components/client/contact/contact.component'
     PasswordModule,
     SliderModule,
     DataViewModule,
-    MultiSelectModule
+    MultiSelectModule,
+    NgxSummernoteModule,
+    ChartModule,
+    ProgressSpinnerModule,
+    TabMenuModule,
+    InputSwitchModule
   ],
   providers: [],
 

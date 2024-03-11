@@ -37,8 +37,9 @@
                     <p-sortIcon field="price"></p-sortIcon>
                 </th>
                 <th style="min-width:10rem">Trạng Thái</th>
+                <th style="min-width:10rem">Giao Dịch</th>
                 <th style="min-width:10rem">Thông Tin</th>
-                <th></th>
+                
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-order>
@@ -52,7 +53,27 @@
                 <td>{{order.phone}}</td>
                 <td>{{order.email}}</td>
                 <td>{{order.totalPrice | currency:'VND'}}</td>
-                <td><button pButton type="button" label="Đang chờ giao hàng" class="p-button-success"></button></td>
+                <!-- <td><button pButton type="button" label={{order.status}} class="p-button-success"></button></td> -->
+                <td>
+                    <button pButton type="button" label="{{order.orderstatus.name}}" [ngClass]="{
+                        'waiting-confirm': order.orderstatus.name === 'Chờ Xác Nhận',
+                        'waiting-pickup': order.orderstatus.name === 'Chờ Lấy Hàng',
+                        'waiting-delivery': order.orderstatus.name === 'Chờ Giao Hàng',
+                        'delivered': order.orderstatus.name === 'Đã Giao',
+                        'cancelled': order.orderstatus.name === 'Đã Hủy',
+                        'returned': order.orderstatus.name === 'Trả Hàng',
+                        'system-error': order.orderstatus.name === 'Lỗi Hệ Thống'
+                    }"></button>
+                </td>
+                <td>
+                    <button pButton type="button" label="{{ transform1(order.bank) }}" [ngClass]="{
+                        '': order.status === 0,
+                        'g': order.status === 1
+                    }"></button>
+                </td>
+                  
+                
+                
                 <td class="custom-link" routerLink="/admin/chitiet/{{order.id}}">Chi Tiết Đơn Hàng</td>
             </tr>
         </ng-template>

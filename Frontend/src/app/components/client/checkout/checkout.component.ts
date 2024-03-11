@@ -40,6 +40,33 @@ export class CheckoutComponent implements OnInit {
     phone: null,
     note: null
   }
+  bank: number = 0; // Mặc định là 0 (thanh toán khi nhận hàng)
+
+  updateBank(event: any) {
+    const isChecked = event.target.checked;
+    const id = event.target.id;
+  
+    // Nếu checkbox Thanh Toán VNPay được chọn
+    if (id === 'vnpay') {
+      // Nếu checkbox được chọn, cập nhật bank = 1, ngược lại cập nhật bank = 0
+      this.orderForm.bank = isChecked ? 1 : 0;
+      this.isVNPaySelected = isChecked;
+
+    }
+  
+    // Nếu checkbox Thanh Toán Khi Nhận Hàng được chọn
+    if (id === 'payment') {
+      // Nếu checkbox được chọn, cập nhật bank = 0, ngược lại cập nhật bank = 1
+      this.orderForm.bank = isChecked ? 0 : 1;
+      this.isPaymentSelected = isChecked;
+      
+    }
+   }
+   isPaymentSelected: boolean = false;
+  isVNPaySelected: boolean = false;
+   
+
+  
   constructor(private userService: UserService,
     public cartService: CartService,
     private orderService:OrderService,
@@ -85,28 +112,38 @@ export class CheckoutComponent implements OnInit {
       orderDetail.subTotal = res.subTotal;
       this.listOrderDetail.push(orderDetail);
     })
-    const {firstname,lastname,country,address,town,state,postCcode,phone,email,note} = this.orderForm;
-    this.orderService.placeOrder(firstname,lastname,country,address,town,state,postCcode,phone,email,note,this.listOrderDetail,this.username).subscribe({
+    const {firstname,lastname,country,address,town,state,postCcode,phone,email,note,status,bank} = this.orderForm;
+    this.orderService.placeOrder(firstname,lastname,country,address,town,state,postCcode,phone,email,note,status,bank,this.listOrderDetail,this.username).subscribe({
       next: res => {
         console.log(res)
-        if (res?.code == '00') {
-          window.location.assign(res.data);
-        }
+       // Nếu bank bằng 1 (tức là đang sử dụng 'vnpay') và code trả về là '00'
+       if (bank === 0) {
+        // Chuyển hướng tới trang 'check-vnpay'
+        this.router.navigate(['/check-vnpay']);
+      }
+       else if (bank === 1 && res?.code === '00') {
+        // Chuyển hướng tới đường dẫn được trả về từ server
+        window.location.assign(res.data);
+      }
+      // Nếu bank bằng 0 (tức là đang sử dụng 'payment')
+       
         this.cartService.clearCart();//xóa giỏ hàng
+
+        // Trừ số lượng sản phẩm từ giỏ hàng
+      // this.cartService.items.forEach(item => {
+      //   this.productService.updateProductQuantity(item.productId, item.quantity).subscribe({
+      //     next: () => {
+      //       console.log('Số lượng sản phẩm đã được cập nhật');
+      //     },
+      //     error: err => {
+      //       console.error('Lỗi khi cập nhật số lượng sản phẩm', err);
+      //     }
+      //   });
+      // });
       }, error: err => {
         console.log(err);
       }
     })
-      //   next: res =>{
-    //     alert(" Đặt Hàng Thành công")
-    //      // Xóa giỏ hàng sau khi đặt hàng thành công
-    //      this.cartService.clearCart();
-    //      // điều hướng về trang chủ
-    //      this.router.navigateByUrl('/');
-    //   },error: err=>{
-    //     console.log(err);
-    //   }
-    // })
   }
 
 

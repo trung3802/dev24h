@@ -7,6 +7,7 @@ import { OrderDetail } from 'src/app/_class/order-detail';
 import { CartService } from 'src/app/_service/cart.service';
 import { OrderService } from 'src/app/_service/order.service';
 import { StorageService } from 'src/app/_service/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkpay',
@@ -18,7 +19,7 @@ import { StorageService } from 'src/app/_service/storage.service';
 export class CheckPayComponent implements OnInit {
   username !: string;
 
-  constructor(public cartService: CartService, private orderService: OrderService, private storageService: StorageService) {
+  constructor(public cartService: CartService, private orderService: OrderService, private storageService: StorageService,private router:Router) {
 
   }
   ngOnInit(): void {
@@ -35,8 +36,9 @@ export class CheckPayComponent implements OnInit {
         });
       }
     } else {
-      alert('Đơn đặt hàng của bạn đã bị hủy');
+      // alert('Đơn đặt hàng của bạn đã bị hủy');
       // this.cartService.clearCart();
+      this.router.navigate(['/enrro-pay']);
     }
   }
 

@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -61,8 +62,16 @@ public class CreateOrderRequest {
     private long totalPrice;
     
     private String username;
+    
+    @NotNull(message = "Danh mục rỗng")
+    @NotEmpty(message = "Danh mục rỗng")
+    @Schema(description = "ID của danh mục",example="1")
+    private long status;
+    
+    private int bank;
 
     private List<CreateOrderDetailRequest> orderDetails;
     private String orderCode;
     
+
 }

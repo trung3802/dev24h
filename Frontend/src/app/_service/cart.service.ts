@@ -94,4 +94,11 @@ export class CartService {
     localStorage.removeItem('cart_items');
   }
 
+  // kiểm tra giỏ hàng thêm ko đc vượt quá số lượng có sẵn
+  getProductQuantityInCart(productId: number): number {
+    const product = this.items.find(item => item.id === productId);
+    return product ? product.quantity : 0;
+  }
+  
+
 }

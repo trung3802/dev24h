@@ -21,7 +21,7 @@ import { WishlistService } from 'src/app/_service/wishlist.service';
 
 })
 export class IndexComponent implements OnInit {
-
+ 
   listItemInCart: any[] = [];
   totalPrice = 0;
   heart = faHeart;
@@ -61,6 +61,7 @@ top=faAnglesUp;
 
 
   keyword: any;
+  isAdmin: boolean = false; // Khởi tạo isAdmin với giá trị mặc định là false
 
   constructor(
     public cartService:CartService,
@@ -78,6 +79,17 @@ top=faAnglesUp;
     this.isLoggedIn = this.storageService.isLoggedIn();
     this.wishlistService.loadWishList();
     this.cartService.loadCart();
+
+   
+  // Ví dụ: lấy vai trò từ dữ liệu đã đăng nhập
+  this.roles = this.storageService.getUser().roles;
+    // Kiểm tra vai trò của người dùng khi component được khởi tạo
+    this.checkUserRole();
+  }
+  // Phương thức kiểm tra vai trò của người dùng
+  checkUserRole(): void {
+    // Kiểm tra xem vai trò của người dùng có phải là admin không
+    this.isAdmin = this.roles.includes('ROLE_ADMIN'); // Thay 'admin' bằng vai trò admin thực tế trong ứng dụng của bạn
   }
 
   showDepartmentClick(){
@@ -198,6 +210,6 @@ top=faAnglesUp;
     // Ví dụ: nếu category.id chẵn thì trả về màu xanh lá cây, nếu lẻ thì trả về màu xanh dương
     return category.id % 2 === 0 ? '#red' : '#blue';
 }
-
+ 
 
 }

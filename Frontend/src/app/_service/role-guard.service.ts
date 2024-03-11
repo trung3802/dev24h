@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { StorageService } from './storage.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+const CATEGORY_API = "http://localhost:8080/api/role/";
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +17,7 @@ export class RoleGuardService implements CanActivate {
 
   roles: any[] = [];
 
-  constructor(private storageService:StorageService,private router: Router) { }
+  constructor(private storageService:StorageService,private router: Router,private http: HttpClient) { }
 // kiểm tra quuyen ng dùng
   canActivate(route: ActivatedRouteSnapshot):boolean{
     const expectedRole = route.data['expectedRole'];
@@ -29,5 +35,10 @@ export class RoleGuardService implements CanActivate {
       return false;
     }
     return true;
+  }
+  
+
+  getListrole():Observable<any>{
+    return this.http.get(CATEGORY_API,httpOptions);
   }
 }

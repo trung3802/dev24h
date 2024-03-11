@@ -57,6 +57,8 @@ public class Order {
     @JoinColumn(name="user_id")
     private User user;
     private int orderState = 0;
+   
+    private int bank;
 
     private String orderCode;
     @OneToMany(mappedBy = "order",orphanRemoval = true)
@@ -68,4 +70,9 @@ public class Order {
 	 * 
 	 * @JsonBackReference private Set<OrderDetail> orderdetails;
 	 */
+//    private long status;
+    @ManyToOne
+    @JoinColumn(name = "status")
+    private Orderstatus orderstatus;
+    
 }

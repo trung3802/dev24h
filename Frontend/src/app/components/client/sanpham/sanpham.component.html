@@ -1,0 +1,119 @@
+<section class="breadcrumb-section set-bg" [ngStyle]="{backgroundImage:'url(assets/image/breadcrumb.jpg'}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Product</h2>
+                    <div class="breadcrumb__option">
+                        <a routerLink="/">Home</a>
+                        <span>Product</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="card" style="margin: 50px; box-shadow: 0 0 10px 5px rgb(214 0 0 / 20%);">
+    <p-table #dt [value]="listProductNewest" [rows]="7" [paginator]="true" [globalFilterFields]="['name']" [tableStyle]="{'min-width': '75rem'}" [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Chi Tiết Đơn Hàng</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Tìm kiếm" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-i="rowIndex">
+            <tr *ngIf="i % 2 === 0">
+                <td>
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" [ngStyle]="{'background-image': 'url(data:image/jpeg;base64,'+ product.images[0].data+')'}">
+                            <ul class="featured__item__pic__hover">
+                                <li>
+                                    <a href="javascript:void(0)" (click)="addToWishList(product)">
+                                        <fa-icon [icon]="heart"></fa-icon>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" routerLink="/product/{{product.id}}">
+                                        <fa-icon [icon]="eye"></fa-icon>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" (click)="addToCart(product)">
+                                        <fa-icon [icon]="bag"></fa-icon>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="featured__item__text">
+                            <h6><b><a href="javascript:void(0)">{{product.name}}</a></b></h6>
+                            <!-- Hiển thị giá sản phẩm với định dạng tiền tệ VND -->
+                            <h5 class="red-text">{{ product.price | currency:'VND'}}</h5>
+                        </div>
+                    </div>
+                </td>
+                <td *ngIf="i + 1 < listProductNewest.length">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" [ngStyle]="{'background-image': 'url(data:image/jpeg;base64,'+ listProductNewest[i + 1].images[0].data+')'}">
+                            <ul class="featured__item__pic__hover">
+                                <li>
+                                    <a href="javascript:void(0)" (click)="addToWishList(listProductNewest[i + 1])">
+                                        <fa-icon [icon]="heart"></fa-icon>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" routerLink="/product/{{listProductNewest[i + 1].id}}">
+                                        <fa-icon [icon]="eye"></fa-icon>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" (click)="addToCart(listProductNewest[i + 1])">
+                                        <fa-icon [icon]="bag"></fa-icon>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="featured__item__text">
+                            <h6><b><a href="javascript:void(0)">{{listProductNewest[i + 1].name}}</a></b></h6>
+                            <!-- Hiển thị giá sản phẩm với định dạng tiền tệ VND -->
+                            <h5 class="red-text">{{ listProductNewest[i + 1].price | currency:'VND'}}</h5>
+                        </div>
+                    </div>
+                </td>
+                <td *ngIf="i + 2 < listProductNewest.length">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" [ngStyle]="{'background-image': 'url(data:image/jpeg;base64,'+ listProductNewest[i + 2].images[0].data+')'}">
+                            <ul class="featured__item__pic__hover">
+                                <li>
+                                    <a href="javascript:void(0)" (click)="addToWishList(listProductNewest[i + 2])">
+                                        <fa-icon [icon]="heart"></fa-icon>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" routerLink="/product/{{listProductNewest[i + 2].id}}">
+                                        <fa-icon [icon]="eye"></fa-icon>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" (click)="addToCart(listProductNewest[i + 2])">
+                                        <fa-icon [icon]="bag"></fa-icon>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="featured__item__text">
+                            <h6><b><a href="javascript:void(0)">{{listProductNewest[i + 2].name}}</a></b></h6>
+                            <!-- Hiển thị giá sản phẩm với định dạng tiền tệ VND -->
+                            <h5 class="red-text">{{ listProductNewest[i + 2].price | currency:'VND'}}</h5>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+

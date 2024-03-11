@@ -3,19 +3,25 @@ package com.example.santhuongmai.service.impl;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.santhuongmai.entity.Blog;
 import com.example.santhuongmai.entity.ERole;
+import com.example.santhuongmai.entity.Image;
 import com.example.santhuongmai.entity.Role;
+import com.example.santhuongmai.entity.Tag;
 import com.example.santhuongmai.entity.User;
 import com.example.santhuongmai.exception.BadRequestException;
 import com.example.santhuongmai.exception.NotFoundException;
 import com.example.santhuongmai.model.request.ChangePasswordRequest;
+import com.example.santhuongmai.model.request.CreateBlogRequest;
 import com.example.santhuongmai.model.request.CreateUserRequest;
 import com.example.santhuongmai.model.request.UpdateProfileRequest;
 import com.example.santhuongmai.repository.RoleRepository;
@@ -47,6 +53,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder encoder;
 
+    @Override
+    public List<User> getListuser() {
+        // TODO Auto-generated method stub
+        return userRepository.findAll(Sort.by("id").descending());
+    }
+    @Override
+    public User getUser(long id){
+    	User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Not Found Blog"));
+        return user;
+    }
     @Override
     public void register(CreateUserRequest request) {
         // TODO Auto-generated method stub
@@ -150,6 +166,14 @@ public class UserServiceImpl implements UserService {
       user.setState(request.getState());
       user.setAddress(request.getAddress());
       user.setPhone(request.getPhone());
+//      //
+//      Set<Role> roles = new HashSet<>();
+//      for(Long roleId : request.getRoles()){
+//    	  Role role = roleRepository.findById(roleId).orElseThrow(() -> new NotFoundException("Not Found Tag"));
+//    	  roles.add(role);
+//      }
+//      user.setRoles(roles);
+//      //
       userRepository.save(user);
       return user;
     }
@@ -166,6 +190,35 @@ public class UserServiceImpl implements UserService {
 
       // userRepository.save(user);
       
+    }
+    @Override
+    public void deleleUser(long id) {
+        // TODO Auto-generated method stub
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Not Found USER"));
+        user.getRoles().remove(this);
+        userRepository.delete(user);
+    }
+
+    //
+    @Override
+    public User updatesUser(long id, CreateUserRequest request) {
+        // TODO Auto-generated method stub
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Not Found User"));
+        user.setFirstname(request.getFirstname());
+        user.setLastname(request.getLastname());
+        user.setEmail(request.getEmail());
+        user.setCountry(request.getCountry());
+        user.setState(request.getState());
+        user.setAddress(request.getAddress());
+        user.setPhone(request.getPhone());
+        Set<Role> roles = new HashSet<>();
+      for(Long roleId : request.getRoles()){
+    	  Role role = roleRepository.findById(roleId).orElseThrow(() -> new NotFoundException("Not Found Tag"));
+    	  roles.add(role);
+      }
+      user.setRoles(roles);
+        userRepository.save(user);
+        return user;
     }
 
 

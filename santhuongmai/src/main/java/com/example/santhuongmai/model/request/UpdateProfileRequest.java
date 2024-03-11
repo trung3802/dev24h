@@ -1,6 +1,8 @@
 package com.example.santhuongmai.model.request;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,4 +28,5 @@ public class UpdateProfileRequest {
     private String address;
 
     private String phone;
+    private Set<Long> roles = new HashSet<>();
 }
